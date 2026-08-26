@@ -9,9 +9,9 @@
 | 스프린트 | 마일스톤 목표 | 상태 | 진행률 |
 |---|---|:---:|:---:|
 | **Sprint 1** | UI 레이아웃 및 PRD 화면 명세 일치화 | 🟢 완료 | 100% |
-| **Sprint 2** | 유효성 검증 & 5초 타임아웃 & 에러 제어 파이프라인 | 🟡 진행 예정 | 0% |
-| **Sprint 3** | 지오코딩, 2km 반경 명소 필터링 & 최적 동선 엔진 | ⚪ 대기 | 0% |
-| **Sprint 4** | 지도 시각화 (Map View) 및 인터랙티브 UX 고도화 | ⚪ 대기 | 0% |
+| **Sprint 2** | 유효성 검증 & 5초 타임아웃 & 에러 제어 파이프라인 | 🟢 완료 | 100% |
+| **Sprint 3** | 지오코딩, 2km 반경 명소 필터링 & 최적 동선 엔진 | 🟢 완료 | 100% |
+| **Sprint 4** | 지도 시각화 (Map View) 및 인터랙티브 UX 고도화 | 🟡 진행 예정 | 0% |
 | **Sprint 5** | E2E 테스트, 성능 최적화, 접근성 및 배포 | ⚪ 대기 | 0% |
 
 ---
@@ -34,17 +34,17 @@
 
 ## 🏃 Sprint 2: 유효성 검증, 5초 타임아웃 및 에러 제어 파이프라인
 
-- **목표**: PRD 6항의 엄격한 에러 기준을 모두 빨간 글씨 `"다시 입력해주세요.."`로 일관되게 처리하는 방어 로직 완성
-- **담당 모듈**: `lib/validator.ts`, `lib/timeout.ts`, `components/spot-finder.tsx`
+- **목표**: PRD 3항(예외 및 에러 처리 기준)의 엄격한 에러 기준을 모두 빨간 글씨 `"다시 입력해주세요.."`로 일관되게 처리하는 방어 로직 완성
+- **담당 모듈**: `lib/validator.ts`, `lib/timeout.ts`, `lib/spots.ts`, `components/spot-finder.tsx`
 
 | 태스크 ID | 작업 내용 | 우선순위 | 상태 | 산출물/비고 |
 |---|---|:---:|:---:|---|
-| S2-01 | 입력값 2자 미만 / 50자 초과 시 즉시 차단 및 에러 메시지 표출 | High | ⏳ 대기 | `lib/validator.ts` |
-| S2-02 | 5초 타임아웃 AbortController 유틸리티 구현 | High | ⏳ 대기 | `lib/timeout.ts` |
-| S2-03 | 5초 초과 시 로딩 해제 + 빨간 글씨 `"다시 입력해주세요.."` 강제 노출 | High | ⏳ 대기 | `components/spot-finder.tsx` |
-| S2-04 | 존재하지 않는 장소 및 검증 실패 시 빨간 글씨 `"다시 입력해주세요.."` 통일 | High | ⏳ 대기 | `components/spot-finder.tsx` |
-| S2-05 | 잘못된 결과 반환 시 화면 렌더링 차단 및 에러 처리 | High | ⏳ 대기 | `components/spot-finder.tsx` |
-| S2-06 | 횟수 제한 없는 재입력 및 재시도 상태 복구 메커니즘 검증 | High | ⏳ 대기 | 상태 초기화 검증 |
+| S2-01 | 입력값 2자 미만 / 50자 초과 시 즉시 차단 및 에러 메시지 표출 | High | ✅ 완료 | `lib/validator.ts` |
+| S2-02 | 5초 타임아웃 AbortController 유틸리티 구현 | High | ✅ 완료 | `lib/timeout.ts` |
+| S2-03 | 5초 초과 시 로딩 해제 + 빨간 글씨 `"다시 입력해주세요.."` 강제 노출 | High | ✅ 완료 | `lib/timeout.ts`, `components/spot-finder.tsx` |
+| S2-04 | 존재하지 않는 장소 및 검증 실패 시 빨간 글씨 `"다시 입력해주세요.."` 통일 | High | ✅ 완료 | `lib/validator.ts`, `components/spot-finder.tsx` |
+| S2-05 | 잘못된 결과 반환 시 화면 렌더링 차단 및 에러 처리 | High | ✅ 완료 | `lib/validator.ts` (2km & 3곳 검증) |
+| S2-06 | 횟수 제한 없는 재입력 및 재시도 상태 복구 메커니즘 검증 | High | ✅ 완료 | 상태 초기화 및 재검색 검증 |
 
 ---
 
@@ -55,11 +55,11 @@
 
 | 태스크 ID | 작업 내용 | 우선순위 | 상태 | 산출물/비고 |
 |---|---|:---:|:---:|---|
-| S3-01 | NYC 주요 명소 50선 좌표 및 카테고리 데이터셋 구축 | High | ⏳ 대기 | `lib/nyc-dataset.ts` |
-| S3-02 | 하버사인 공식 기반 2km 반경 명소 필터링 함수 작성 | High | ⏳ 대기 | `lib/geo.ts` |
-| S3-03 | 기준점으로부터 가까운 순(오름차순) 정확히 3곳 추출 로직 | High | ⏳ 대기 | `lib/geo.ts` |
-| S3-04 | 출발지 → 1차 → 2차 → 3차 최적 이동 동선(거리/시간) 산출기 | High | ⏳ 대기 | `lib/route-optimizer.ts` |
-| S3-05 | Next.js API Route (`/api/spots/search`) 엔드포인트 구현 | Medium | ⏳ 대기 | `app/api/spots/search/route.ts` |
+| S3-01 | NYC 주요 명소 30+ 거점 좌표 및 메타데이터 데이터셋 구축 | High | ✅ 완료 | `lib/nyc-dataset.ts` |
+| S3-02 | 하버사인 공식 기반 2km 반경 명소 필터링 함수 작성 | High | ✅ 완료 | `lib/geo.ts` |
+| S3-03 | 기준점으로부터 가까운 순(오름차순) 정확히 3곳 추출 로직 | High | ✅ 완료 | `lib/route-optimizer.ts` |
+| S3-04 | 출발지 → 1차 → 2차 → 3차 최적 이동 동선(거리/시간) 산출기 | High | ✅ 완료 | `lib/route-optimizer.ts` |
+| S3-05 | Next.js API Route (`/api/spots/search`) 엔드포인트 구현 | High | ✅ 완료 | `app/api/spots/search/route.ts` |
 
 ---
 
@@ -88,11 +88,3 @@
 | S5-02 | 스크린 리더(`aria-*`, `role="alert"`) 웹 접근성(a11y) 검증 | Medium | ⏳ 대기 | UI 전반 |
 | S5-03 | 프로덕션 빌드 검증 및 린트 검사 (`pnpm build`) | High | ⏳ 대기 | CI/CD |
 | S5-04 | Vercel 배포 및 최종 운영 환경 점검 | High | ⏳ 대기 | Vercel |
-
----
-
-## 📝 스프린트 운영 규칙 (Sprint Guidelines)
-
-1. **에러 문구 무관용 원칙**: PRD에 따라 모든 예외/에러는 무조건 빨간 글씨 `"다시 입력해주세요.."`로 표기해야 함.
-2. **타임아웃 5초 엄수**: 외부 API 지연 상황에서도 클라이언트 UX는 5초 내에 반드시 중단되고 피드백을 주어야 함.
-3. **완료 정의(DoD)**: 각 태스크는 단위 테스트 또는 명확한 동작 확인 후 완료 처리함.

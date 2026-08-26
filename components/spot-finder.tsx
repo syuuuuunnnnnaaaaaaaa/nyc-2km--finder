@@ -7,41 +7,71 @@ import { NearbySpots } from '@/components/nearby-spots'
 import { RouteTimeline } from '@/components/route-timeline'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { findItinerary, SUGGESTIONS, type Itinerary } from '@/lib/spots'
-
-const MIN_LENGTH = 2
-const MAX_LENGTH = 50
-const ERROR_MESSAGE = '다시 입력해주세요..'
+import { searchItineraryAsync, SUGGESTIONS, type Itinerary } from '@/lib/spots'
+import { withTimeout } from '@/lib/timeout'
+import {
+  MAX_QUERY_LENGTH,
+  MIN_QUERY_LENGTH,
+  STANDARD_ERROR_MESSAGE,
+  validateQuery,
+} from '@/lib/validator'
 
 export function SpotFinder() {
   const [query, setQuery] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [result, setResult] = useState<Itinerary | null>(null)
-  const timer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const abortControllerRef = useRef<AbortController | null>(null)
 
-  function runSearch(value: string) {
+  async function runSearch(value: string) {
     const trimmed = value.trim()
-    setResult(null)
 
-    if (trimmed.length < MIN_LENGTH || trimmed.length > MAX_LENGTH) {
-      setError(ERROR_MESSAGE)
+    // 1. 이전 결과 및 진행 중인 요청 초기화
+    setResult(null)
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort()
+      abortControllerRef.current = null
+    }
+
+    // 2. PRD 3.1: 입력값 길이 검증 (2~50자)
+    const validation = validateQuery(trimmed)
+    if (!validation.isValid) {
+      setError(STANDARD_ERROR_MESSAGE)
+      setIsLoading(false)
       return
     }
 
+    // 3. 로딩 상태 활성화 및 5초 타임아웃 검색 실행
     setError(null)
     setIsLoading(true)
 
-    if (timer.current) clearTimeout(timer.current)
-    timer.current = setTimeout(() => {
-      const itinerary = findItinerary(trimmed)
+    const controller = new AbortController()
+    abortControllerRef.current = controller
+
+    try {
+      // PRD 3.2: 5초 타임아웃 AbortController 적용
+      const itinerary = await withTimeout(
+        (signal) => searchItineraryAsync(trimmed, signal),
+        5000,
+        controller.signal,
+      )
+
+      // PRD 3.3, 3.4: 장소 검증 실패 또는 유효하지 않은 결과인 경우
       if (!itinerary) {
-        setError(ERROR_MESSAGE)
+        setError(STANDARD_ERROR_MESSAGE)
+        setResult(null)
       } else {
+        setError(null)
         setResult(itinerary)
       }
+    } catch {
+      // 타임아웃(5초 초과) 또는 통신 에러 발생 시 강제 중단 및 에러 메시지 표시
+      setError(STANDARD_ERROR_MESSAGE)
+      setResult(null)
+    } finally {
       setIsLoading(false)
-    }, 1400)
+      abortControllerRef.current = null
+    }
   }
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -54,7 +84,7 @@ export function SpotFinder() {
     runSearch(value)
   }
 
-  const overLimit = query.trim().length > MAX_LENGTH
+  const overLimit = query.trim().length > MAX_QUERY_LENGTH
 
   return (
     <div className="flex flex-col gap-10">
@@ -90,7 +120,7 @@ export function SpotFinder() {
                 overLimit ? 'text-destructive' : 'text-muted-foreground'
               }`}
             >
-              {query.trim().length}/{MAX_LENGTH}
+              {query.trim().length}/{MAX_QUERY_LENGTH}
             </span>
           </div>
 
@@ -111,13 +141,13 @@ export function SpotFinder() {
         </form>
 
         {error ? (
-          <p className="flex items-center gap-1.5 text-sm text-red-500 font-medium" role="alert">
+          <p className="flex items-center gap-1.5 text-sm font-medium text-red-500" role="alert">
             <AlertCircle className="size-4" aria-hidden="true" />
             {error}
           </p>
         ) : (
           <p id="query-hint" className="text-sm text-muted-foreground">
-            최소 {MIN_LENGTH}자, 최대 {MAX_LENGTH}자까지 입력할 수 있습니다.
+            최소 {MIN_QUERY_LENGTH}자, 최대 {MAX_QUERY_LENGTH}자까지 입력할 수 있습니다.
           </p>
         )}
 
@@ -147,7 +177,17 @@ export function SpotFinder() {
             onClick={() => handleChip('X')}
             className="rounded-full font-normal text-muted-foreground"
           >
-            Error Test
+            에러 테스트 (1자)
+          </Button>
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            disabled={isLoading}
+            onClick={() => handleChip('지연테스트')}
+            className="rounded-full font-normal text-muted-foreground"
+          >
+            5초 타임아웃 테스트
           </Button>
         </div>
       </section>
