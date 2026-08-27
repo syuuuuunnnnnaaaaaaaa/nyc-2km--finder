@@ -11,7 +11,6 @@
  * 반경 2km 이내 개별 명소 정보
  */
 export interface Spot {
-  id: string;
   name: string;              // 명소명 (한글)
   nameEn: string;            // 명소명 (영어)
   lat: number;               // 위도
@@ -19,7 +18,6 @@ export interface Spot {
   distanceKm: number;        // 기준 위치(출발지)로부터의 거리 (단위: km)
   minutes: number;           // 도보 이동 예상 시간 (단위: 분)
   tag: string;               // 카테고리 태그 (예: '도심 공원', '전망대', '미술관')
-  description?: string;      // 간략한 소개
 }
 
 /**
@@ -28,21 +26,13 @@ export interface Spot {
 export interface Itinerary {
   origin: string;            // 입력/선택한 출발지명 (한글)
   originEn: string;          // 출발지명 (영어)
-  originCoord?: {
-    lat: number;
-    lng: number;
-  };
+  originLat: number;         // 출발지 위도
+  originLng: number;         // 출발지 경도
+  line: string;              // 대중교통/지하철 라인 힌트 (예: 'N Q R W')
+  lineColor: string;         // 라인 테마 색상
   spots: Spot[];             // 반경 2km 이내 명소 3개 (거리 오름차순 정렬)
-  legs: {
-    from: string;
-    to: string;
-    distanceKm: number;
-    minutes: number;
-  }[];                       // 각 구간별 이동 정보
   totalKm: number;           // 총 이동 거리 (단위: km)
   totalMinutes: number;      // 총 소요 시간 (단위: 분)
-  line?: string;             // 대중교통/지하철 라인 힌트 (예: 'N Q R W')
-  lineColor?: string;        // 라인 테마 색상
 }
 ```
 
@@ -77,10 +67,12 @@ export interface Itinerary {
   "data": {
     "origin": "타임스퀘어",
     "originEn": "Times Square",
-    "originCoord": { "lat": 40.758, "lng": -73.9855 },
+    "originLat": 40.758,
+    "originLng": -73.9855,
+    "line": "N Q R W",
+    "lineColor": "var(--color-chart-2)",
     "spots": [
       {
-        "id": "bryant-park",
         "name": "브라이언트 파크",
         "nameEn": "Bryant Park",
         "distanceKm": 0.4,
@@ -90,7 +82,6 @@ export interface Itinerary {
         "lng": -73.9832
       },
       {
-        "id": "ny-public-library",
         "name": "뉴욕 공립도서관",
         "nameEn": "NY Public Library",
         "distanceKm": 0.9,
@@ -100,7 +91,6 @@ export interface Itinerary {
         "lng": -73.9822
       },
       {
-        "id": "empire-state-building",
         "name": "엠파이어 스테이트 빌딩",
         "nameEn": "Empire State Building",
         "distanceKm": 1.6,
@@ -111,9 +101,7 @@ export interface Itinerary {
       }
     ],
     "totalKm": 1.9,
-    "totalMinutes": 25,
-    "line": "N Q R W",
-    "lineColor": "var(--color-chart-2)"
+    "totalMinutes": 25
   }
 }
 ```

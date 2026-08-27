@@ -122,11 +122,12 @@ gantt
   4. **복사 및 공유 기능**:
      - 생성된 추천 동선 클립보드 복사(텍스트/링크) 기능 지원.
 - **산출물**:
-  - `components/map/spot-map.tsx`
-  - `components/map/map-marker.tsx`
-  - `components/share-button.tsx`
+  - `components/map/spot-map.tsx`: Leaflet 인터랙티브 2km 지도 컴포넌트
+  - `components/map/index.tsx`: SSR 방지 Dynamic Import 래퍼
+  - `components/share-button.tsx`: 일정 및 동선 클립보드 원클릭 복사
+  - `components/nearby-spots.tsx`: 선택 마커 포커스 양방향 인터랙션 지원
 - **완료 조건 (DoD)**:
-  - 지도 위에 출발지와 3개 명소 마커가 2km 반경 원(Circle)과 함께 명확히 표시되고, 연결 선이 올바른 순서로 그려짐.
+  - 지도 위에 출발지와 3개 명소 마커가 2km 반경 원(Circle)과 함께 명확히 표시되고, 연결 선이 올바른 순서로 그려짐. (✅ 완료)
 
 ---
 

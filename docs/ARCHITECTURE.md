@@ -13,6 +13,8 @@ flowchart TD
         Input[Search Input & Validation]
         TimerHook[5s AbortController Timer]
         ResultView[NearbySpots & RouteTimeline]
+        MapView[SpotMap Container / Leaflet 2km Circle & Markers]
+        ShareBtn[ShareButton - Clipboard Export]
         ErrorView[Red Error Text: '다시 입력해주세요..']
     end
 
@@ -21,11 +23,6 @@ flowchart TD
         GeoEngine[Geocoding & 2km Haversine Engine]
         RouteOptimizer[Greedy TSP Route Optimizer]
         NYCDataset[(NYC Spots Dataset / Cache)]
-    end
-
-    subgraph External [External APIs - Optional/Future]
-        MapboxAPI[Mapbox / Leaflet Tiles]
-        PlacesAPI[Google Places / Overpass API]
     end
 
     UI --> Input
@@ -41,7 +38,9 @@ flowchart TD
     GeoEngine -- "반경 2km 이내 3개 명소" --> RouteOptimizer
 
     RouteOptimizer --> ResultView
-    ResultView -.-> MapboxAPI
+    RouteOptimizer --> MapView
+    ResultView --> ShareBtn
+    ResultView <--> MapView
 ```
 
 ---
@@ -147,8 +146,12 @@ nyc-2km-spot-and-route-finder/
 │   ├── layout.tsx                   # 메인 레이아웃 (SEO 메타데이터)
 │   └── page.tsx                     # 메인 페이지 진입점
 ├── components/
+│   ├── map/
+│   │   ├── index.tsx                # Dynamic SSR 방지 지도 래퍼
+│   │   └── spot-map.tsx             # Leaflet 인터랙티브 2km 지도
 │   ├── nearby-spots.tsx             # 명소 3곳 카드 그리드 컴포넌트
 │   ├── route-timeline.tsx           # 최적 동선 타임라인 컴포넌트
+│   ├── share-button.tsx             # 동선 복사/공유 버튼
 │   ├── site-header.tsx              # 상단 헤더 컴포넌트
 │   ├── spot-finder.tsx              # 검색 폼 & 상태 제어 컨테이너
 │   └── ui/                          # 공통 UI 컴포넌트 (Button, Input 등)
@@ -163,6 +166,7 @@ nyc-2km-spot-and-route-finder/
 │   ├── route-optimizer.ts           # 동선 최적화 알고리즘
 │   ├── spots.ts                     # 데이터 타입 및 인터페이스
 │   ├── timeout.ts                   # 5초 타임아웃 유틸
+│   ├── types.ts                     # TypeScript 인터페이스 정의
 │   └── validator.ts                 # 입력값 및 응답 유효성 검증
 ├── PRD.md                           # 제품 요구사항 정의서 (PRD)
 ├── package.json
