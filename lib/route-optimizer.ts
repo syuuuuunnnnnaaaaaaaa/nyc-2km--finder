@@ -64,6 +64,8 @@ export function optimizeRouteFromOrigin(origin: NYCLocation): Itinerary | null {
     distanceKm: item.distanceKm,
     tag: item.location.tag,
     minutes: item.minutes,
+    lat: item.location.lat,
+    lng: item.location.lng,
   }))
 
   // 3. 최적 이동 동선 (출발지 → Spot 1 → Spot 2 → Spot 3) 구간 거리 및 소요 시간 계산
@@ -90,6 +92,8 @@ export function optimizeRouteFromOrigin(origin: NYCLocation): Itinerary | null {
   const itinerary: Itinerary = {
     origin: origin.name,
     originEn: origin.nameEn,
+    originLat: origin.lat,
+    originLng: origin.lng,
     line: origin.line || 'Subway / Walking',
     lineColor: origin.lineColor || 'var(--color-primary)',
     spots,

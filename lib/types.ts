@@ -4,11 +4,15 @@ export interface Spot {
   distanceKm: number
   tag: string
   minutes: number
+  lat: number
+  lng: number
 }
 
 export interface Itinerary {
   origin: string
   originEn: string
+  originLat: number
+  originLng: number
   line: string
   lineColor: string
   spots: Spot[]

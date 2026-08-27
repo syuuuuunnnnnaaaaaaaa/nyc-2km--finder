@@ -3,6 +3,7 @@
 import { AlertCircle, Loader2, Search, Sparkles } from 'lucide-react'
 import { useRef, useState } from 'react'
 
+import { SpotMapContainer } from '@/components/map'
 import { NearbySpots } from '@/components/nearby-spots'
 import { RouteTimeline } from '@/components/route-timeline'
 import { Button } from '@/components/ui/button'
@@ -21,6 +22,7 @@ export function SpotFinder() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [result, setResult] = useState<Itinerary | null>(null)
+  const [activeSpotIndex, setActiveSpotIndex] = useState<number | null>(null)
   const abortControllerRef = useRef<AbortController | null>(null)
 
   async function runSearch(value: string) {
@@ -28,6 +30,7 @@ export function SpotFinder() {
 
     // 1. 이전 결과 및 진행 중인 요청 초기화
     setResult(null)
+    setActiveSpotIndex(null)
     if (abortControllerRef.current) {
       abortControllerRef.current.abort()
       abortControllerRef.current = null
@@ -193,8 +196,9 @@ export function SpotFinder() {
       </section>
 
       {isLoading && (
-        <div className="flex flex-col gap-3" aria-live="polite">
+        <div className="flex flex-col gap-4" aria-live="polite">
           <div className="h-5 w-48 animate-pulse rounded-full bg-secondary" />
+          <div className="h-80 animate-pulse rounded-2xl bg-secondary" />
           <div className="grid gap-3 md:grid-cols-3">
             {[0, 1, 2].map((item) => (
               <div key={item} className="h-32 animate-pulse rounded-2xl bg-secondary" />
@@ -206,7 +210,16 @@ export function SpotFinder() {
 
       {!isLoading && result && (
         <div className="flex animate-in flex-col gap-10 fade-in duration-500 slide-in-from-bottom-3">
-          <NearbySpots spots={result.spots} />
+          <SpotMapContainer
+            itinerary={result}
+            activeSpotIndex={activeSpotIndex}
+            onSelectSpot={(idx) => setActiveSpotIndex(idx)}
+          />
+          <NearbySpots
+            spots={result.spots}
+            activeSpotIndex={activeSpotIndex}
+            onSelectSpot={(idx) => setActiveSpotIndex(idx === activeSpotIndex ? null : idx)}
+          />
           <RouteTimeline itinerary={result} />
         </div>
       )}

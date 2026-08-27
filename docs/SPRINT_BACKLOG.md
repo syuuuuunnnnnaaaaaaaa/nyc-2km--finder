@@ -11,7 +11,7 @@
 | **Sprint 1** | UI 레이아웃 및 PRD 화면 명세 일치화 | 🟢 완료 | 100% |
 | **Sprint 2** | 유효성 검증 & 5초 타임아웃 & 에러 제어 파이프라인 | 🟢 완료 | 100% |
 | **Sprint 3** | 지오코딩, 2km 반경 명소 필터링 & 최적 동선 엔진 | 🟢 완료 | 100% |
-| **Sprint 4** | 지도 시각화 (Map View) 및 인터랙티브 UX 고도화 | 🟡 진행 예정 | 0% |
+| **Sprint 4** | 지도 시각화 (Map View) 및 인터랙티브 UX 고도화 | 🟢 완료 | 100% |
 | **Sprint 5** | E2E 테스트, 성능 최적화, 접근성 및 배포 | ⚪ 대기 | 0% |
 
 ---
@@ -66,14 +66,14 @@
 ## 🏃 Sprint 4: 지도 시각화 (Map View) 및 인터랙티브 UX 고도화
 
 - **목표**: 검색된 명소 3곳 및 이동 동선을 지도상에 시각화
-- **담당 모듈**: `components/map/`, `components/spot-finder.tsx`
+- **담당 모듈**: `components/map/`, `components/nearby-spots.tsx`, `components/share-button.tsx`, `components/spot-finder.tsx`
 
 | 태스크 ID | 작업 내용 | 우선순위 | 상태 | 산출물/비고 |
 |---|---|:---:|:---:|---|
-| S4-01 | 경량 인터랙티브 지도 컴포넌트 추가 (2km 반경 Circle 오버레이) | Medium | ⏳ 대기 | `components/map/spot-map.tsx` |
-| S4-02 | 출발지(핀) 및 3개 명소(1,2,3 넘버 뱃지) 마커 표시 | Medium | ⏳ 대기 | `components/map/map-marker.tsx` |
-| S4-03 | 출발지부터 명소들을 잇는 동선 Polyline 라인 렌더링 | Medium | ⏳ 대기 | `components/map/route-line.tsx` |
-| S4-04 | 명소 카드 클릭 시 지도 포커스 연동 인터랙션 | Low | ⏳ 대기 | `components/nearby-spots.tsx` |
+| S4-01 | 경량 인터랙티브 지도 컴포넌트 추가 (2km 반경 Circle 오버레이) | High | ✅ 완료 | `components/map/spot-map.tsx` |
+| S4-02 | 출발지(핀) 및 3개 명소(1,2,3 넘버 뱃지) 마커 표시 | High | ✅ 완료 | `components/map/spot-map.tsx` |
+| S4-03 | 출발지부터 명소들을 잇는 동선 Polyline 라인 렌더링 | High | ✅ 완료 | `components/map/spot-map.tsx` |
+| S4-04 | 명소 카드 클릭 시 지도 포커스 연동 & 클립보드 동선 복사 기능 | Medium | ✅ 완료 | `components/nearby-spots.tsx`, `components/share-button.tsx` |
 
 ---
 

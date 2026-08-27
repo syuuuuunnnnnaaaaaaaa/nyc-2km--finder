@@ -1,5 +1,6 @@
 import { Clock, Flag, Navigation, Route } from 'lucide-react'
 
+import { ShareButton } from '@/components/share-button'
 import { Card } from '@/components/ui/card'
 import type { Itinerary } from '@/lib/spots'
 
@@ -15,13 +16,16 @@ export function RouteTimeline({ itinerary }: { itinerary: Itinerary }) {
 
   return (
     <section aria-labelledby="route-heading" className="flex flex-col gap-5">
-      <div className="flex items-baseline justify-between gap-4">
+      <div className="flex flex-wrap items-center justify-between gap-4">
         <h2 id="route-heading" className="text-lg font-bold tracking-tight md:text-xl">
           추천하는 이동 동선
         </h2>
-        <span className="shrink-0 font-display text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-          Line {itinerary.line}
-        </span>
+        <div className="flex items-center gap-3">
+          <span className="shrink-0 font-display text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            Line {itinerary.line}
+          </span>
+          <ShareButton itinerary={itinerary} />
+        </div>
       </div>
 
       <Card className="gap-0 overflow-hidden rounded-2xl border-border p-0">
