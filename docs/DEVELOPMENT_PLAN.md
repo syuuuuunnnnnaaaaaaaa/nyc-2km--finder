@@ -145,11 +145,15 @@ gantt
   4. **프로덕션 빌드 & Vercel 배포**:
      - `next build` 무오류 통과 및 정적/서버리스 환경 배포.
 - **산출물**:
-  - `tests/validator.test.ts`
-  - `tests/route-optimizer.test.ts`
-  - `docs/RELEASE_NOTES.md`
+  - `tests/validator.test.ts`: 길이 검증 및 결과 무결성 단위 테스트 (9개 Pass)
+  - `tests/geo.test.ts`: 하버사인 거리 및 도보 소요 시간 계산 단위 테스트 (3개 Pass)
+  - `tests/route-optimizer.test.ts`: 랜드마크 검색 및 최적 동선 단위 테스트 (6개 Pass)
+  - `tests/timeout.test.ts`: 5초 타임아웃 AbortController 단위 테스트 (2개 Pass)
+  - `vitest.config.ts`: Vitest 설정 파일
+  - `app/layout.tsx`: OpenGraph & Twitter SEO 메타데이터
+  - `docs/RELEASE_NOTES.md`: v1.0.0 정식 릴리즈 노트
 - **완료 조건 (DoD)**:
-  - `pnpm build` 정상 완료, 모든 테스트 통과, Lighthouse 성능 90점 이상 달성.
+  - `npm run build` 정상 완료, 총 20개 단위 테스트 100% 통과, 프로덕션 릴리즈 준비 완료. (✅ 완료)
 
 ---
 

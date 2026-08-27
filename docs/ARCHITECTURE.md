@@ -159,6 +159,7 @@ nyc-2km-spot-and-route-finder/
 │   ├── API_AND_DATA_SPEC.md         # 데이터 모델 및 API 명세서
 │   ├── ARCHITECTURE.md              # 시스템 아키텍처 정의서 (본 문서)
 │   ├── DEVELOPMENT_PLAN.md          # 마스터 개발 계획서
+│   ├── RELEASE_NOTES.md             # v1.0.0 정식 릴리즈 노트
 │   └── SPRINT_BACKLOG.md            # 스프린트 백로그 및 진척도 관리
 ├── lib/
 │   ├── geo.ts                       # 거리 계산 및 지리 유틸
@@ -168,7 +169,13 @@ nyc-2km-spot-and-route-finder/
 │   ├── timeout.ts                   # 5초 타임아웃 유틸
 │   ├── types.ts                     # TypeScript 인터페이스 정의
 │   └── validator.ts                 # 입력값 및 응답 유효성 검증
+├── tests/
+│   ├── geo.test.ts                  # 지리 거리 계산 단위 테스트
+│   ├── route-optimizer.test.ts      # 최적 동선 엔진 단위 테스트
+│   ├── timeout.test.ts              # 5초 타임아웃 단위 테스트
+│   └── validator.test.ts            # 입력값/결과 검증 단위 테스트
 ├── PRD.md                           # 제품 요구사항 정의서 (PRD)
 ├── package.json
-└── tsconfig.json
+├── tsconfig.json
+└── vitest.config.ts                 # Vitest 테스트 설정
 ```
