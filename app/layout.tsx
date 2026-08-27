@@ -14,10 +14,23 @@ const _plexKR = IBM_Plex_Sans_KR({
 })
 
 export const metadata: Metadata = {
-  title: '뉴욕 2km 콕! 최적 동선 추천',
+  title: 'NYC 2km Spot & Route Finder | 뉴욕 반경 2km 명소 및 최적 동선 추천',
   description:
-    '입력한 장소 기준 반경 2km 이내 뉴욕 명소와 최적 이동 경로를 한눈에 확인하세요.',
-  generator: 'v0.app',
+    '입력한 장소 기준 반경 2km 이내 뉴욕 대표 명소 3곳과 최적 도보 이동 동선을 추천하는 여행 가이드 서비스입니다.',
+  keywords: ['뉴욕 여행', 'NYC', '뉴욕 명소', '2km 동선', '뉴욕 도보 코스', '타임스퀘어', '센트럴파크', '뉴욕 여행 일정'],
+  authors: [{ name: 'NYC 2km Finder Team' }],
+  openGraph: {
+    title: 'NYC 2km Spot & Route Finder',
+    description: '가고 싶은 뉴욕 여행지를 입력하고 반경 2km 명소 3곳과 최적 동선을 확인하세요.',
+    type: 'website',
+    locale: 'ko_KR',
+    siteName: 'NYC 2km Spot & Route Finder',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'NYC 2km Spot & Route Finder',
+    description: '뉴욕 반경 2km 이내 명소 3곳 및 최적 동선 추천 가이드',
+  },
   icons: {
     icon: [
       {
