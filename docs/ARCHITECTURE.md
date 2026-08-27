@@ -14,31 +14,35 @@ flowchart TD
         TimerHook[5s AbortController Timer]
         ResultView[NearbySpots & RouteTimeline]
         MapView[SpotMap Container / Leaflet 2km Circle & Markers]
-        ShareBtn[ShareButton - Clipboard Export]
+        AiCard[AiThemeCard - AI 코스 테마 & 스토리]
+        ShareBtn[ShareButton - Clipboard Export with AI Tips]
         ErrorView[Red Error Text: '다시 입력해주세요..']
     end
 
-    subgraph ServiceLayer [Business Logic & Service Layer]
-        Validator[Input & Constraint Validator]
-        GeoEngine[Geocoding & 2km Haversine Engine]
-        RouteOptimizer[Greedy TSP Route Optimizer]
-        NYCDataset[(NYC Spots Dataset / Cache)]
+    subgraph ServerSide [Server - Hybrid AI Engine]
+        API[POST /api/spots/search]
+        Guard[3.8s Server Timeout Guard]
+        GeminiClient[Gemini 2.5 Flash Engine]
+        StructParser[Structured JSON Parser]
+        GeoFilter[2km Geo Filter & Route Optimizer]
+        Docent[AI Docent Tips Generator]
+        LocalEngine[Local Dataset & Geo Engine]
+        FinalPayload[AI Enhanced Payload]
     end
 
     UI --> Input
-    Input --> Validator
-    Validator -- "2~50자 통과" --> TimerHook
-    Validator -- "길이 위반 (<2 or >50)" --> ErrorView
-
-    TimerHook --> GeoEngine
-    TimerHook -- "5초 초과 시 Abort" --> ErrorView
-
-    GeoEngine --> NYCDataset
-    GeoEngine -- "위치 불일치 / 명소 < 3개" --> ErrorView
-    GeoEngine -- "반경 2km 이내 3개 명소" --> RouteOptimizer
-
-    RouteOptimizer --> ResultView
-    RouteOptimizer --> MapView
+    Input --> API
+    API --> Guard
+    Guard --> GeminiClient
+    GeminiClient -- "1. AI 위치 식별 & 구조화 추출" --> StructParser
+    StructParser -- "2. 반경 2km 명소 하버사인 필터" --> GeoFilter
+    GeoFilter -- "3. AI 도슨트 팁 & 코스 테마 생성" --> Docent
+    Docent --> FinalPayload
+    GeminiClient -- "API 지연 or 예외 시 (Fallback)" --> LocalEngine
+    LocalEngine --> FinalPayload
+    FinalPayload --> AiCard
+    FinalPayload --> MapView
+    FinalPayload --> ResultView
     ResultView --> ShareBtn
     ResultView <--> MapView
 ```
@@ -149,9 +153,10 @@ nyc-2km-spot-and-route-finder/
 │   ├── map/
 │   │   ├── index.tsx                # Dynamic SSR 방지 지도 래퍼
 │   │   └── spot-map.tsx             # Leaflet 인터랙티브 2km 지도
-│   ├── nearby-spots.tsx             # 명소 3곳 카드 그리드 컴포넌트
+│   ├── ai-theme-card.tsx            # AI 코스 테마 & 스토리텔링 카드
+│   ├── nearby-spots.tsx             # 명소 3곳 카드 그리드 + AI 도슨트 팁
 │   ├── route-timeline.tsx           # 최적 동선 타임라인 컴포넌트
-│   ├── share-button.tsx             # 동선 복사/공유 버튼
+│   ├── share-button.tsx             # 동선 복사/공유 (AI 팁 포함)
 │   ├── site-header.tsx              # 상단 헤더 컴포넌트
 │   ├── spot-finder.tsx              # 검색 폼 & 상태 제어 컨테이너
 │   └── ui/                          # 공통 UI 컴포넌트 (Button, Input 등)
@@ -162,12 +167,13 @@ nyc-2km-spot-and-route-finder/
 │   ├── RELEASE_NOTES.md             # v1.0.0 정식 릴리즈 노트
 │   └── SPRINT_BACKLOG.md            # 스프린트 백로그 및 진척도 관리
 ├── lib/
+│   ├── gemini.ts                    # Gemini AI SDK 연동 (위치 식별, 도슨트 팁 생성)
 │   ├── geo.ts                       # 거리 계산 및 지리 유틸
 │   ├── nyc-dataset.ts               # NYC 주요 명소 데이터셋
 │   ├── route-optimizer.ts           # 동선 최적화 알고리즘
 │   ├── spots.ts                     # 데이터 타입 및 인터페이스
 │   ├── timeout.ts                   # 5초 타임아웃 유틸
-│   ├── types.ts                     # TypeScript 인터페이스 정의
+│   ├── types.ts                     # TypeScript 인터페이스 정의 (AI 필드 포함)
 │   └── validator.ts                 # 입력값 및 응답 유효성 검증
 ├── tests/
 │   ├── geo.test.ts                  # 지리 거리 계산 단위 테스트

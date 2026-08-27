@@ -10,13 +10,22 @@ export function ShareButton({ itinerary }: { itinerary: Itinerary }) {
   const [copied, setCopied] = useState(false)
 
   function handleCopy() {
+    const aiThemeSection = itinerary.aiThemeTitle
+      ? `\n🤖 AI 추천 코스 테마: ${itinerary.aiThemeTitle}${itinerary.aiThemeDescription ? `\n   ${itinerary.aiThemeDescription}` : ''}\n`
+      : ''
+
+    const formatSpot = (spot: typeof itinerary.spots[0], num: number) => {
+      const tip = spot.aiTip ? `\n     💡 ${spot.aiTip}` : ''
+      return `${num}. ${spot.name} (${spot.distanceKm.toFixed(1)}km, 도보 ${spot.minutes}분) - ${spot.tag}${tip}`
+    }
+
     const text = `🗽 NYC 2km Spot & Route Plan
 📍 출발지: ${itinerary.origin} (${itinerary.originEn})
-
+${aiThemeSection}
 [추천 명소 3곳 (반경 2km)]
-1. ${itinerary.spots[0].name} (${itinerary.spots[0].distanceKm.toFixed(1)}km, 도보 ${itinerary.spots[0].minutes}분) - ${itinerary.spots[0].tag}
-2. ${itinerary.spots[1].name} (${itinerary.spots[1].distanceKm.toFixed(1)}km, 도보 ${itinerary.spots[1].minutes}분) - ${itinerary.spots[1].tag}
-3. ${itinerary.spots[2].name} (${itinerary.spots[2].distanceKm.toFixed(1)}km, 도보 ${itinerary.spots[2].minutes}분) - ${itinerary.spots[2].tag}
+${formatSpot(itinerary.spots[0], 1)}
+${formatSpot(itinerary.spots[1], 2)}
+${formatSpot(itinerary.spots[2], 3)}
 
 🚶 추천 동선:
 ${itinerary.origin} ➔ ${itinerary.spots[0].name} ➔ ${itinerary.spots[1].name} ➔ ${itinerary.spots[2].name}
