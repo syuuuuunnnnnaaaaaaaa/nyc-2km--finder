@@ -46,7 +46,7 @@ export function NearbySpots({ spots, activeSpotIndex, onSelectSpot }: NearbySpot
                       isSelected ? 'text-primary' : 'text-muted-foreground'
                     }`}
                   >
-                    Stop {index + 1}
+                    Spot {index + 1}
                   </span>
                   <span className="flex items-center gap-1 font-display text-sm font-bold text-primary">
                     <MapPin className="size-3.5" aria-hidden="true" />

@@ -119,7 +119,7 @@ export default function SpotMap({ itinerary, activeSpotIndex, onSelectSpot }: Sp
         .bindPopup(
           `<div class="p-1 font-sans">
             <div class="flex items-center gap-1.5">
-              <span class="rounded bg-primary/10 px-1.5 py-0.5 text-[10px] font-bold text-primary">Stop ${idx + 1}</span>
+              <span class="rounded bg-primary/10 px-1.5 py-0.5 text-[10px] font-bold text-primary">Spot ${idx + 1}</span>
               <span class="text-xs text-neutral-500">${spot.tag}</span>
             </div>
             <div class="text-sm font-bold text-neutral-900 mt-1">${spot.name}</div>
