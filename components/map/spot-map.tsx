@@ -142,9 +142,9 @@ export default function SpotMap({ itinerary, activeSpotIndex, onSelectSpot }: Sp
 
     // 5. 최적 이동 동선 Polyline (출발지 → Spot 1 → Spot 2 → Spot 3)
     const polyline = L.polyline(latLngs, {
-      color: '#2563eb',
+      color: '#305cd4',
       weight: 4,
-      opacity: 0.85,
+      opacity: 0.9,
       dashArray: '8, 6',
       lineJoin: 'round',
     }).addTo(map)
