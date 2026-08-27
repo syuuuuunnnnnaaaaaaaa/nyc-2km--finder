@@ -3,6 +3,7 @@
 import { AlertCircle, Loader2, Search, Sparkles } from 'lucide-react'
 import { useRef, useState } from 'react'
 
+import { AiThemeCard } from '@/components/ai-theme-card'
 import { SpotMapContainer } from '@/components/map'
 import { NearbySpots } from '@/components/nearby-spots'
 import { RouteTimeline } from '@/components/route-timeline'
@@ -210,6 +211,7 @@ export function SpotFinder() {
 
       {!isLoading && result && (
         <div className="flex animate-in flex-col gap-10 fade-in duration-500 slide-in-from-bottom-3">
+          <AiThemeCard itinerary={result} />
           <SpotMapContainer
             itinerary={result}
             activeSpotIndex={activeSpotIndex}

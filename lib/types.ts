@@ -6,6 +6,7 @@ export interface Spot {
   minutes: number
   lat: number
   lng: number
+  aiTip?: string
 }
 
 export interface Itinerary {
@@ -18,6 +19,9 @@ export interface Itinerary {
   spots: Spot[]
   totalKm: number
   totalMinutes: number
+  aiThemeTitle?: string
+  aiThemeDescription?: string
+  isAiGenerated?: boolean
 }
 
 export interface NYCLocation {

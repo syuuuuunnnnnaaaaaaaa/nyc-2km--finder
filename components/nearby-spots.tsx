@@ -1,4 +1,4 @@
-import { Footprints, MapPin } from 'lucide-react'
+import { Bot, Footprints, MapPin } from 'lucide-react'
 
 import { Badge } from '@/components/ui/badge'
 import { Card } from '@/components/ui/card'
@@ -25,6 +25,7 @@ export function NearbySpots({ spots, activeSpotIndex, onSelectSpot }: NearbySpot
       <ol className="grid gap-3 md:grid-cols-3">
         {spots.map((spot, index) => {
           const isSelected = activeSpotIndex === index
+          const hasAiTip = Boolean(spot.aiTip)
 
           return (
             <li key={spot.nameEn}>
@@ -68,6 +69,14 @@ export function NearbySpots({ spots, activeSpotIndex, onSelectSpot }: NearbySpot
                       도보 {spot.minutes}분
                     </span>
                   </div>
+
+                  {/* AI 도슨트 꿀팁 뱃지 */}
+                  {hasAiTip && (
+                    <div className="mt-3 flex items-start gap-2 rounded-xl bg-primary/5 px-3 py-2.5 ring-1 ring-primary/10">
+                      <Bot className="mt-0.5 size-3.5 shrink-0 text-primary" aria-hidden="true" />
+                      <p className="text-xs leading-relaxed text-muted-foreground">{spot.aiTip}</p>
+                    </div>
+                  )}
                 </div>
               </Card>
             </li>
