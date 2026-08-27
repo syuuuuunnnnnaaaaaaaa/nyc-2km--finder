@@ -5,13 +5,16 @@ export default function Page() {
   return (
     <main className="min-h-dvh bg-background">
       <SiteHeader />
-      <div className="mx-auto max-w-3xl px-5 py-10 md:py-14">
+      <div className="mx-auto max-w-5xl px-5 py-8 md:py-12">
         <SpotFinder />
       </div>
-      <footer className="border-t border-border">
-        <div className="mx-auto max-w-3xl px-5 py-8">
-          <p className="font-display text-xs uppercase tracking-widest text-muted-foreground">
-            Mock data · New York City · Walking distances are estimates
+      <footer className="border-t border-border bg-card">
+        <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-6 text-xs text-muted-foreground">
+          <p className="font-display font-medium uppercase tracking-wider">
+            NY Route · Urban Velocity Design System
+          </p>
+          <p className="text-[11px]">
+            New York City · Walking distances are estimates
           </p>
         </div>
       </footer>

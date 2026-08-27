@@ -91,7 +91,7 @@ export function SpotFinder() {
   const overLimit = query.trim().length > MAX_QUERY_LENGTH
 
   return (
-    <div className="flex flex-col gap-10">
+    <div className="flex flex-col gap-8 md:gap-10">
       <section aria-labelledby="search-heading" className="flex flex-col gap-4">
         <h2 id="search-heading" className="sr-only">
           여행지 검색
@@ -100,7 +100,7 @@ export function SpotFinder() {
         <form onSubmit={handleSubmit} className="flex flex-col gap-3 sm:flex-row">
           <div className="relative flex-1">
             <Search
-              className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"
+              className="pointer-events-none absolute left-4 top-1/2 size-4.5 -translate-y-1/2 text-muted-foreground"
               aria-hidden="true"
             />
             <Input
@@ -117,7 +117,7 @@ export function SpotFinder() {
               aria-invalid={Boolean(error)}
               aria-describedby="query-hint"
               maxLength={80}
-              className="h-13 rounded-xl bg-card pl-11 pr-20 text-base shadow-none md:text-base"
+              className="h-12 rounded-lg bg-card pl-11 pr-20 text-base shadow-xs md:text-base border-border"
             />
             <span
               className={`absolute right-4 top-1/2 -translate-y-1/2 font-display text-xs font-semibold tabular-nums ${
@@ -131,11 +131,11 @@ export function SpotFinder() {
           <Button
             type="submit"
             disabled={isLoading}
-            className="h-13 rounded-xl px-8 text-base font-bold transition-all duration-200"
+            className="h-12 rounded-lg px-8 text-base font-bold transition-all duration-200 bg-primary text-white hover:opacity-90 shadow-md"
           >
             {isLoading ? (
               <>
-                <Loader2 className="size-4 animate-spin" aria-hidden="true" />
+                <Loader2 className="size-4.5 animate-spin" aria-hidden="true" />
                 검색 중
               </>
             ) : (
@@ -145,20 +145,20 @@ export function SpotFinder() {
         </form>
 
         {error ? (
-          <p className="flex items-center gap-1.5 text-sm font-medium text-red-500" role="alert">
+          <p className="flex items-center gap-1.5 text-sm font-semibold text-[#ba1a1a]" role="alert">
             <AlertCircle className="size-4" aria-hidden="true" />
             {error}
           </p>
         ) : (
-          <p id="query-hint" className="text-sm text-muted-foreground">
-            최소 {MIN_QUERY_LENGTH}자, 최대 {MAX_QUERY_LENGTH}자까지 입력할 수 있습니다.
+          <p id="query-hint" className="text-xs text-muted-foreground">
+            최소 {MIN_QUERY_LENGTH}자, 최대 {MAX_QUERY_LENGTH}자까지 입력할 수 있습니다. (자연어 검색 지원)
           </p>
         )}
 
         <div className="flex flex-wrap items-center gap-2 pt-1">
-          <span className="flex items-center gap-1.5 font-display text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-            <Sparkles className="size-3.5" aria-hidden="true" />
-            Demo
+          <span className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-muted-foreground">
+            <Sparkles className="size-3.5 text-secondary" aria-hidden="true" />
+            추천 키워드
           </span>
           {SUGGESTIONS.map((suggestion) => (
             <Button
@@ -168,7 +168,7 @@ export function SpotFinder() {
               size="sm"
               disabled={isLoading}
               onClick={() => handleChip(suggestion)}
-              className="rounded-full bg-card font-normal"
+              className="rounded-md border-border bg-card font-medium text-xs hover:border-primary/50 hover:bg-surface-low"
             >
               {suggestion}
             </Button>
@@ -179,7 +179,7 @@ export function SpotFinder() {
             size="sm"
             disabled={isLoading}
             onClick={() => handleChip('X')}
-            className="rounded-full font-normal text-muted-foreground"
+            className="rounded-md font-normal text-xs text-muted-foreground hover:bg-surface-low"
           >
             에러 테스트 (1자)
           </Button>
@@ -189,7 +189,7 @@ export function SpotFinder() {
             size="sm"
             disabled={isLoading}
             onClick={() => handleChip('지연테스트')}
-            className="rounded-full font-normal text-muted-foreground"
+            className="rounded-md font-normal text-xs text-muted-foreground hover:bg-surface-low"
           >
             5초 타임아웃 테스트
           </Button>
@@ -198,14 +198,14 @@ export function SpotFinder() {
 
       {isLoading && (
         <div className="flex flex-col gap-4" aria-live="polite">
-          <div className="h-5 w-48 animate-pulse rounded-full bg-secondary" />
-          <div className="h-80 animate-pulse rounded-2xl bg-secondary" />
-          <div className="grid gap-3 md:grid-cols-3">
+          <div className="h-5 w-48 animate-pulse rounded-md bg-surface-low" />
+          <div className="h-80 animate-pulse rounded-lg bg-surface-low" />
+          <div className="grid gap-4 md:grid-cols-3">
             {[0, 1, 2].map((item) => (
-              <div key={item} className="h-32 animate-pulse rounded-2xl bg-secondary" />
+              <div key={item} className="h-36 animate-pulse rounded-lg bg-surface-low" />
             ))}
           </div>
-          <div className="h-56 animate-pulse rounded-2xl bg-secondary" />
+          <div className="h-56 animate-pulse rounded-lg bg-surface-low" />
         </div>
       )}
 
@@ -227,10 +227,14 @@ export function SpotFinder() {
       )}
 
       {!isLoading && !result && !error && (
-        <p className="rounded-2xl border border-dashed border-border px-6 py-10 text-center text-sm text-muted-foreground">
-          장소를 입력하고 <span className="font-semibold text-foreground">요약</span> 버튼을 누르면 반경 2km 명소와
-          동선을 보여드립니다.
-        </p>
+        <div className="rounded-lg border border-dashed border-border bg-card/60 px-6 py-12 text-center text-sm text-muted-foreground shadow-2xs">
+          <p className="leading-relaxed">
+            장소를 입력하고 <span className="font-bold text-primary">요약</span> 버튼을 누르면 반경 2km 명소와 최적 동선을 추천해드립니다.
+          </p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            예: "소호 브런치 맛집 근처", "타임스퀘어", "브루클린 덤보 전망 좋은 곳"
+          </p>
+        </div>
       )}
     </div>
   )
