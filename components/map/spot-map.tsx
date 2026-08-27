@@ -47,14 +47,14 @@ export default function SpotMap({ itinerary, activeSpotIndex, onSelectSpot }: Sp
       subdomains: 'abcd',
     }).addTo(map)
 
-    // 2. 2km 반경 Circle 오버레이
+    // 2. 2km 반경 Circle 오버레이 (Urban Velocity New York Blue #305cd4)
     const circle = L.circle([originLat, originLng], {
       radius: 2000,
-      color: '#3b82f6',
+      color: '#305cd4',
       weight: 2,
       dashArray: '6, 6',
-      fillColor: '#3b82f6',
-      fillOpacity: 0.07,
+      fillColor: '#305cd4',
+      fillOpacity: 0.08,
     }).addTo(map)
     circleRef.current = circle
 
@@ -190,8 +190,8 @@ export default function SpotMap({ itinerary, activeSpotIndex, onSelectSpot }: Sp
         </div>
       </div>
 
-      <div className="relative h-[340px] w-full overflow-hidden rounded-2xl border border-border shadow-xs md:h-[400px]">
-        <div ref={mapContainerRef} className="h-full w-full bg-secondary/50" />
+      <div className="relative h-[340px] w-full overflow-hidden rounded-lg border border-border shadow-md md:h-[400px]">
+        <div ref={mapContainerRef} className="h-full w-full bg-surface-low" />
       </div>
     </div>
   )

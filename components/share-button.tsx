@@ -1,6 +1,6 @@
 'use client'
 
-import { Check, Copy, Share2 } from 'lucide-react'
+import { Check, Copy } from 'lucide-react'
 import { useState } from 'react'
 
 import { Button } from '@/components/ui/button'
@@ -19,7 +19,7 @@ export function ShareButton({ itinerary }: { itinerary: Itinerary }) {
       return `${num}. ${spot.name} (${spot.distanceKm.toFixed(1)}km, 도보 ${spot.minutes}분) - ${spot.tag}${tip}`
     }
 
-    const text = `🗽 NYC 2km Spot & Route Plan
+    const text = `🗽 NY Route - 2km 최적 동선 계획
 📍 출발지: ${itinerary.origin} (${itinerary.originEn})
 ${aiThemeSection}
 [추천 명소 3곳 (반경 2km)]
@@ -45,12 +45,12 @@ ${itinerary.origin} ➔ ${itinerary.spots[0].name} ➔ ${itinerary.spots[1].name
       variant="outline"
       size="sm"
       onClick={handleCopy}
-      className="rounded-xl border-border bg-card text-xs font-semibold shadow-2xs hover:bg-secondary transition-all"
+      className="h-8 rounded-md border-border bg-card px-3 text-xs font-semibold shadow-2xs hover:border-primary/50 hover:bg-surface-low transition-all"
     >
       {copied ? (
         <>
           <Check className="size-3.5 text-green-600" aria-hidden="true" />
-          동선 복사 완료!
+          복사 완료!
         </>
       ) : (
         <>
